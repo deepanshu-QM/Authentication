@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NotesTakingPlatform</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; padding: 0px 100px;">
@@ -11,8 +12,8 @@
             Notes Will store Here ...
         </div>
         <div>
-            <input type="text" />
-            <button>Create New Notes</button>
+            <input type="text" id="userNote" />
+            <button onclick="postNotes()">Create New Notes</button>
         </div>
     </div>
     <script>
@@ -20,6 +21,11 @@
             await axios.post("http://localhost:2005/notes", {
                 note : document.getElementById("userNote").value
             })
+
+            const newNode = document.createElement("div")
+            newNode.innerHTML = document.getElementById("userNote").value
+            newNode.setAttribute("style","border: 2px solid black; padding :10px")
+            document.getElementById("notes").append(newNode)
         }
         async function NotesDisplay(){
             const response = await axios.get("http://localhost:2005/notes")
@@ -31,6 +37,15 @@
                 document.getElementById("notes").appendChild(noteNotes)
             }
         }
+        NotesDisplay();
     </script>
 </body>
 </html>
+
+
+
+<!-- 
+a) document.getElementById("id") => means: find the HTML element whose id is "id"
+b) .value => access thecurrent value  inside this element
+c) document.getElementById("notes").innerHTML = ""; => means Everthing inside this element
+"notes"  is empty string -->
